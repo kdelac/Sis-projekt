@@ -1,0 +1,13 @@
+@model string
+
+@{
+    var url = $"/Account/Authorize{Model}";
+}
+
+<form action="@url" method="post">
+    <input type="text" name="username" value="" /><br />
+    <input type="text" name="password" value="" /><br/>
+    <input type="submit" value="Submit" />
+</form>
+
+@Model
