@@ -31,9 +31,25 @@ namespace OAuthClient.Controllers
         }
 
         [Authorize]
-        public IActionResult Secret()
+        public async Task<IActionResult> SecretAsync()
         {
-            return View();
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var splited = accessToken.Split(".");
+
+            byte[] data = Convert.FromBase64String(splited[0]);
+            string prvi = Encoding.UTF8.GetString(data);
+
+            byte[] data2 = Convert.FromBase64String(splited[1]);
+            string drugi = Encoding.UTF8.GetString(data2);
+
+            AccesTokenViewModel accesTokenViewModel = new AccesTokenViewModel()
+            {
+                AccesToken = accessToken,
+                Prvi = prvi,
+                Drugi = drugi,
+                Treci = "ne moze se dekodirat"
+            };
+            return View(accesTokenViewModel);
         }
 
         [Authorize]
